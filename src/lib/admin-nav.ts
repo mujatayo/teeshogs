@@ -47,7 +47,6 @@ export const adminNav: AdminNavItem[] = [
   {
     label: "Newsletters",
     href: "/admin/newsletters",
-    badge: "Soon",
   },
   {
     label: "Contacts",
