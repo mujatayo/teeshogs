@@ -22,7 +22,10 @@ export const siteConfig = {
     "children's African wear",
     "Nigerian fashion",
   ],
-  ogImage: "/hero-bg.webp",
+  /** Dedicated 1200×630 share card from `app/opengraph-image.tsx`. */
+  ogImage: "/opengraph-image",
+  ogImageWidth: 1200,
+  ogImageHeight: 630,
   locale: "en_US",
 } as const
 
@@ -93,7 +96,9 @@ export function createPageMetadata({
       images: [
         {
           url: ogImage,
-          alt: title,
+          width: siteConfig.ogImageWidth,
+          height: siteConfig.ogImageHeight,
+          alt: `${siteConfig.name} — ${title}`,
         },
       ],
     },
@@ -160,6 +165,16 @@ export function createProductMetadata(product: Product): Metadata {
       description,
       images: [image],
     },
+  }
+}
+
+/** Default share-card image metadata (1200×630). */
+export function defaultOgImage() {
+  return {
+    url: absoluteUrl(siteConfig.ogImage),
+    width: siteConfig.ogImageWidth,
+    height: siteConfig.ogImageHeight,
+    alt: `${siteConfig.name} — ${siteConfig.tagline}`,
   }
 }
 
@@ -230,6 +245,48 @@ export function websiteJsonLd() {
       "query-input": "required name=search_term_string",
     },
   }
+}
+
+export type BreadcrumbJsonLdItem = {
+  name: string
+  path?: string
+}
+
+export function breadcrumbJsonLd(items: BreadcrumbJsonLdItem[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      ...(item.path ? { item: absoluteUrl(item.path) } : {}),
+    })),
+  }
+}
+
+export function faqPageJsonLd(faqs: Array<{ question: string; answer: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  }
+}
+
+/** Standard help-centre trail: Home → Help → [page] */
+export function helpBreadcrumbJsonLd(pageName: string, pagePath: string) {
+  return breadcrumbJsonLd([
+    { name: "Home", path: "/" },
+    { name: "Help", path: "/help" },
+    { name: pageName, path: pagePath },
+  ])
 }
 
 export function productJsonLd(product: Product) {

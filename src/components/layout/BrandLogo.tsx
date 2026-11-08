@@ -8,13 +8,27 @@ type BrandLogoProps = {
   className?: string
   imageClassName?: string
   priority?: boolean
+  /**
+   * On dark surfaces, keep the real Teeshogs mark and sit it on a light plate
+   * (white/black asset files in /public are still the old Teepha brand).
+   */
+  variant?: "default" | "onDark"
 }
 
-export function BrandLogo({ className, imageClassName, priority = false }: BrandLogoProps) {
+export function BrandLogo({
+  className,
+  imageClassName,
+  priority = false,
+  variant = "default",
+}: BrandLogoProps) {
   return (
     <Link
       href="/"
-      className={cn("inline-flex items-center transition-opacity hover:opacity-90", className)}
+      className={cn(
+        "inline-flex items-center transition-opacity hover:opacity-90",
+        variant === "onDark" && "rounded-sm bg-white px-2.5 py-1.5",
+        className
+      )}
       aria-label="Teeshogs Clothier home"
     >
       <Image

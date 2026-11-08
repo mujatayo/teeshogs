@@ -34,7 +34,6 @@ import { BrandLogo } from "@/components/layout/BrandLogo"
 import { ModeToggle } from "@/components/mode-toggle"
 import { useStore } from "@/context/StoreContext"
 import type { NavItem, NavSection } from "@/lib/navigation"
-import { formatNGN, getFreeShippingThresholdNgn } from "@/lib/money"
 import { cn } from "@/lib/utils"
 
 function hasDropdown(section: NavSection) {
@@ -123,7 +122,6 @@ export function Header({ nav }: { nav: NavSection[] }) {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({})
   const router = useRouter()
-  const freeShippingAt = getFreeShippingThresholdNgn()
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
@@ -140,15 +138,6 @@ export function Header({ nav }: { nav: NavSection[] }) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm">
-      <div className="bg-primary text-primary-foreground">
-        <div className="container mx-auto flex items-center justify-center gap-3 px-4 py-2">
-          <p className="min-w-0 text-center text-[10px] uppercase tracking-widest sm:text-xs">
-            Free shipping on orders over {formatNGN(freeShippingAt, { compact: true })}
-            &nbsp;·&nbsp; Use code TEESHOGS10 for 10% off your first order
-          </p>
-        </div>
-      </div>
-
       <div className="container mx-auto px-4">
         <div className="grid h-16 grid-cols-[1fr_auto_1fr] items-center gap-2">
           {/* Left: menu */}

@@ -8,6 +8,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer"
 import { QuickView } from "@/components/products/QuickView"
 import { AuthModal } from "@/components/auth/AuthModal"
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat"
+import { NewsletterPopup } from "@/components/newsletter/NewsletterPopup"
 import type { NavSection } from "@/lib/navigation"
 
 export function StoreShell({
@@ -33,6 +34,7 @@ export function StoreShell({
       <QuickView />
       <AuthModal />
       <WhatsAppFloat />
+      <NewsletterPopup />
     </>
   )
 }

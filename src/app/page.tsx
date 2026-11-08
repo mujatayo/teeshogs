@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowRight, Award, RotateCcw, ShieldCheck, Truck } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { CategoryCarousel } from "@/components/home/CategoryCarousel"
 import { HeroSlider } from "@/components/home/HeroSlider"
@@ -47,13 +47,6 @@ const categories = [
   { name: "Accessories", slug: "accessories", image: "skirt-1.webp" },
 ]
 
-const perks = [
-  { icon: Truck, title: "Free Shipping", desc: "On orders over ₦150,000" },
-  { icon: RotateCcw, title: "Easy Returns", desc: "30-day return policy" },
-  { icon: ShieldCheck, title: "Secure Payment", desc: "Protected checkout" },
-  { icon: Award, title: "Quality First", desc: "Premium fabrics" },
-]
-
 async function getHomeProducts() {
   const [{ data: featured }, { data: arrivals }] = await Promise.all([
     supabase.from("products").select("*, product_variants(*)").eq("featured", true).limit(4),
@@ -85,27 +78,9 @@ export default async function HomePage() {
   const heroSlides = toDisplayHeroSlides(hero.slides)
 
   return (
-    <div>
+    <div className="home-page">
       <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
       <HeroSlider slides={heroSlides} />
-
-      <section className="border-b">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
-            {perks.map((perk) => (
-              <div key={perk.title} className="flex items-center gap-3">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted">
-                  <perk.icon className="size-5" />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold">{perk.title}</p>
-                  <p className="text-xs text-muted-foreground">{perk.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section className="container mx-auto px-4 py-16">
         <div className="mb-10 text-center">
